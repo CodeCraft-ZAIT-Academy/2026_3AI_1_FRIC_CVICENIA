@@ -25,29 +25,26 @@
 
 book-card {
   position: relative; 
-  /* Tvoje ďalšie štýly pre kartu, napr. padding, border... */
   padding: 16px;
-  padding-top: 35px; /* Pridaj trochu miesta navrchu, aby text nezasahoval do odznaku */
+  padding-top: 35px; 
 }
 
-/* ODZNAK: Absolútna pozícia vpravo hore */
 .status {
   position: absolute;
-  top: 12px;    /* Vzdialenosť od vrchu karty */
-  right: 12px;  /* Vzdialenosť od pravého okraja karty */
-  
+  top: 12px; 
+  right: 12px; 
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: bold;
   color: white;
-  z-index: 10;  /* Pre istotu, aby bol odznak nad ostatným textom */
+  z-index: 10;  
 }
 
 .status-available {
-  background-color: #2e7d32; /* Zelená */
+  background-color: #2e7d32; 
 }
 
 .status-borrowed {
-  background-color: #d32f2f; /* Červená */
+  background-color: #d32f2f; 
 }

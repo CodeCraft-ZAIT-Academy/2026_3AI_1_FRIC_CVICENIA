@@ -22,8 +22,6 @@
   </mat-card-content>
 
   <div class="book-card"> 
-  
-  <!-- Odznak -->
   <span class="status" 
         [class.status-available]="book().available" 
         [class.status-borrowed]="!book().available">
@@ -33,9 +31,6 @@
       Vypožičaná
     }
   </span>
-
-  <!-- Názov knihy a zvyšok obsahu -->
-  
 </div>
 
   <mat-card-actions>
