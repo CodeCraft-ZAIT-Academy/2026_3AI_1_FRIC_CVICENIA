@@ -9,7 +9,7 @@
     "test": "ng test",
     "g": "ng add @angular/material",
     "gen": "ng generate component book-detail --dry-run",
-    "create": "ng g c book-detail",
+    "create": "ng g c cart",
     "serve:ssr:Kniznica": "node dist/Kniznica/server/server.mjs"
   },
   "private": true,
