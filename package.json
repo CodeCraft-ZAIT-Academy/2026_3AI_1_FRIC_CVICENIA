@@ -8,8 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "g": "ng add @angular/material",
-    "gen": "ng generate component book-detail --dry-run",
-    "create": "ng g c cart",
+    "gen": "ng g c books/components/book-form --dry-run",
+    "create": "ng g c books/components/book-form",
     "serve:ssr:Kniznica": "node dist/Kniznica/server/server.mjs"
   },
   "private": true,
