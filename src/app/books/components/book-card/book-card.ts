@@ -10,7 +10,7 @@ import { BookForm } from '../book-form/book-form';
   selector: 'app-book-card',
   imports: [MatCardModule, MatButtonModule, MatIconModule, BookDetail, BookForm],
   templateUrl: './book-card.html',
-  styleUrl: './book-card.css'
+  styleUrl: './book-card.css',
 })
 export class BookCard {
   book = input.required<Book>();
@@ -24,8 +24,10 @@ export class BookCard {
     this.showDetails = !this.showDetails;
   }
 
+  favoriteToggled = output<void>();
+
   toggleFavorite(): void {
-    this.book().favorite = !this.book().favorite;
+    this.favoriteToggled.emit();
   }
 
   borrow(): void {
