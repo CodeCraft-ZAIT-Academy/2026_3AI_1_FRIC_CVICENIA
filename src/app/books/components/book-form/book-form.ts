@@ -6,12 +6,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Book } from '../../book';
 import { GENRES } from '../../genres';
+import { createEmptyBook } from '../../book.factory';
 
 @Component({
   selector: 'app-book-form',
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './book-form.html',
-  styleUrl: './book-form.css'
+  styleUrl: './book-form.css',
 })
 export class BookForm implements OnInit {
   book = input<Book>();
@@ -22,7 +23,7 @@ export class BookForm implements OnInit {
   ratings: number[] = [1, 2, 3, 4, 5];
   currentYear: number = new Date().getFullYear();
 
-  draft: Book = this.emptyBook();
+  draft: Book = createEmptyBook();
 
   ngOnInit(): void {
     const book = this.book();
@@ -37,12 +38,8 @@ export class BookForm implements OnInit {
   }
 
   save(form: NgForm): void {
-    this.saved.emit({ ...this.draft });
-
-    if (!this.isEditMode()) {
-      this.draft = this.emptyBook();
-      form.resetForm(this.draft);
-    }
+    this.draft = createEmptyBook();
+    form.resetForm(this.draft);
   }
 
   cancel(): void {
@@ -59,7 +56,7 @@ export class BookForm implements OnInit {
       genre: '',
       rating: 3,
       pages: 100,
-      favorite: false
+      favorite: false,
     };
   }
 }
