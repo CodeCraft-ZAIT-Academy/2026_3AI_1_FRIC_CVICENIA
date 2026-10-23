@@ -17,7 +17,9 @@
           <mat-icon>shopping_cart</mat-icon>
           Košík
         </mat-panel-title>
-        <mat-panel-description>Požičané knihy: {{ borrowedBooks().length }} / {{ maxBorrowed }}</mat-panel-description>
+        <mat-panel-description
+          >Požičané knihy: {{ borrowedBooks().length }} / {{ maxBorrowed }}</mat-panel-description
+        >
       </mat-expansion-panel-header>
 
       <app-cart [books]="borrowedBooks()" (returned)="giveBack($event)"></app-cart>
@@ -26,39 +28,56 @@
 
   <h2>Zoznam kníh</h2>
 
+  <p class="counters">
+    Spolu kníh: <strong>{{ totalBooks() }}</strong>
+    <br />
+    Dostupných: <strong>{{ availableCount() }}</strong>
+  </p>
+
+  <button matButton  (click)="favoritesOnly.update((v) => !v)">
+    {{ favoritesOnly() ? 'Všetky' : 'Iba obľúbené' }}
+  </button>
+
   <div class="toolbar">
     <mat-form-field class="search">
       <mat-label>Hľadať podľa názvu alebo autora</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput name="search"
-  [ngModel]="searchText()"
-  (ngModelChange)="searchText.set($event); firstPage()" />
+      <input
+        matInput
+        name="search"
+        [ngModel]="searchText()"
+        (ngModelChange)="searchText.set($event); firstPage()"
+      />
 
-@if (searchText()) {
-  <button matIconButton matSuffix (click)="clearSearch()">
-    <mat-icon>close</mat-icon>
-  </button>
-}
+      @if (searchText()) {
+        <button matIconButton matSuffix (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </mat-form-field>
 
-    <mat-button-toggle-group name="availability"
-  [ngModel]="availability()"
-  (ngModelChange)="availability.set($event); firstPage()">
-  <mat-button-toggle value="all">Všetky</mat-button-toggle>
-  <mat-button-toggle value="available">Dostupné</mat-button-toggle>
-  <mat-button-toggle value="borrowed">Vypožičané</mat-button-toggle>
-</mat-button-toggle-group>
+    <mat-button-toggle-group
+      name="availability"
+      [ngModel]="availability()"
+      (ngModelChange)="availability.set($event); firstPage()"
+    >
+      <mat-button-toggle value="all">Všetky</mat-button-toggle>
+      <mat-button-toggle value="available">Dostupné</mat-button-toggle>
+      <mat-button-toggle value="borrowed">Vypožičané</mat-button-toggle>
+    </mat-button-toggle-group>
 
     <mat-form-field>
       <mat-label>Zoradiť podľa</mat-label>
-      <mat-select name="sortBy"
-  [ngModel]="sortBy()"
-  (ngModelChange)="sortBy.set($event); firstPage()">
-  <mat-option value="none">Bez zoradenia</mat-option>
-  <mat-option value="title">Názvu (A – Z)</mat-option>
-  <mat-option value="year">Roku (najnovšie)</mat-option>
-  <mat-option value="rating">Hodnotenia (najlepšie)</mat-option>
-</mat-select>
+      <mat-select
+        name="sortBy"
+        [ngModel]="sortBy()"
+        (ngModelChange)="sortBy.set($event); firstPage()"
+      >
+        <mat-option value="none">Bez zoradenia</mat-option>
+        <mat-option value="title">Názvu (A – Z)</mat-option>
+        <mat-option value="year">Roku (najnovšie)</mat-option>
+        <mat-option value="rating">Hodnotenia (najlepšie)</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 
@@ -83,7 +102,8 @@
         (returned)="giveBack(book)"
         (edited)="updateBook($event)"
         (deleted)="deleteBook(book)"
-        (favoriteToggled)="toggleFavorite(book)">
+        (favoriteToggled)="toggleFavorite(book)"
+      >
       </app-book-card>
     }
   } @empty {

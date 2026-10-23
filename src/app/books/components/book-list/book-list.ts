@@ -41,10 +41,16 @@ export class BookList {
   readonly availability = signal('all');
   readonly sortBy = signal('none');
 
-  readonly visibleBooks = computed(() =>
-    this.bookService.getFilteredBooks(this.searchText(), this.availability(), this.sortBy()),
-  );
-
+  readonly favoritesOnly = signal(false);
+  readonly visibleBooks = computed(() => {
+    const list = this.bookService.getFilteredBooks(
+      this.searchText(),
+      this.availability(),
+      this.sortBy(),
+    );
+    return this.favoritesOnly() ? list.filter((b) => b.favorite) : list;
+  });
+  
   clearSearch(): void {
     this.searchText.set('');
     this.firstPage();
@@ -53,6 +59,7 @@ export class BookList {
   addBook(book: Book): void {
     this.bookService.addBook(book);
     this.firstPage();
+    this.resetFilters();
   }
 
   updateBook(updated: Book): void {
@@ -64,12 +71,14 @@ export class BookList {
     if (this.currentPage() > this.pageCount()) {
       this.lastPage();
     }
+    this.resetFilters();
   }
 
   borrow(book: Book): void {
     if (!this.bookService.borrowBook(book.id)) {
       alert('Knihu teraz nie je možné vypožičať.');
     }
+    this.resetFilters();
   }
 
   giveBack(book: Book): void {
@@ -79,6 +88,17 @@ export class BookList {
   readonly currentPage = signal(1);
   readonly pageSize = signal(5);
   readonly pageSizes = [5, 10, 20];
+
+  resetFilters(): void {
+    this.searchText.set('');
+    this.availability.set('all');
+    this.sortBy.set('none');
+    this.firstPage();
+  }
+
+  readonly totalBooks = computed(() => this.books().length);
+
+  readonly availableCount = this.bookService.availableCount;
 
   readonly pageCount = computed(() =>
     Math.max(1, Math.ceil(this.visibleBooks().length / this.pageSize())),
