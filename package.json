@@ -9,8 +9,7 @@
     "test": "ng test",
     "g": "ng add @angular/material",
     "gen": "ng g c books/components/book-form --dry-run",
-    "create": "ng g c books/components/book-form",
-    "create2": "ng generate service books/book.service",
+    "create": "ng g c shared/components/not-found",
     "serve:ssr:Kniznica": "node dist/Kniznica/server/server.mjs"
   },
   "private": true,

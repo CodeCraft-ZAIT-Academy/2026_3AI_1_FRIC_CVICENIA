@@ -1,31 +1,4 @@
 <section>
-  <mat-accordion multi>
-    <mat-expansion-panel #addPanel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>add_circle</mat-icon>
-          Pridať knihu
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <app-book-form (saved)="addBook($event); addPanel.close()"></app-book-form>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>shopping_cart</mat-icon>
-          Košík
-        </mat-panel-title>
-        <mat-panel-description
-          >Požičané knihy: {{ borrowedBooks().length }} / {{ maxBorrowed }}</mat-panel-description
-        >
-      </mat-expansion-panel-header>
-
-      <app-cart [books]="borrowedBooks()" (returned)="giveBack($event)"></app-cart>
-    </mat-expansion-panel>
-  </mat-accordion>
-
   <h2>Zoznam kníh</h2>
 
   <p class="counters">
@@ -34,7 +7,7 @@
     Dostupných: <strong>{{ availableCount() }}</strong>
   </p>
 
-  <button matButton  (click)="favoritesOnly.update((v) => !v)">
+  <button matButton (click)="favoritesOnly.update((v) => !v)">
     {{ favoritesOnly() ? 'Všetky' : 'Iba obľúbené' }}
   </button>
 
@@ -100,8 +73,6 @@
         [book]="book"
         (borrowed)="borrow(book)"
         (returned)="giveBack(book)"
-        (edited)="updateBook($event)"
-        (deleted)="deleteBook(book)"
         (favoriteToggled)="toggleFavorite(book)"
       >
       </app-book-card>

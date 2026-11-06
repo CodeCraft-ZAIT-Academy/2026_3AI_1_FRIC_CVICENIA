@@ -1,15 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { BookCard } from '../book-card/book-card';
-import { BookForm } from '../book-form/book-form';
-import { Cart } from '../../../cart/components/cart/cart';
 import { Book } from '../../book';
 import { BookService } from '../../book.service';
 
@@ -17,12 +14,9 @@ import { BookService } from '../../book.service';
   selector: 'app-book-list',
   imports: [
     BookCard,
-    BookForm,
-    Cart,
     FormsModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -34,8 +28,6 @@ import { BookService } from '../../book.service';
 export class BookList {
   private bookService = inject(BookService);
   readonly books = this.bookService.books;
-  readonly borrowedBooks = this.bookService.borrowedBooks;
-  readonly maxBorrowed = this.bookService.maxBorrowed;
 
   readonly searchText = signal('');
   readonly availability = signal('all');
@@ -56,33 +48,11 @@ export class BookList {
     this.firstPage();
   }
 
-  addBook(book: Book): void {
-    this.bookService.addBook(book);
-    this.firstPage();
-    this.resetFilters();
-  }
-
-  updateBook(updated: Book): void {
-    this.bookService.updateBook(updated);
-  }
-
-  deleteBook(deleted: Book): void {
-    this.bookService.deleteBook(deleted.id);
-    if (this.currentPage() > this.pageCount()) {
-      this.lastPage();
-    }
-    this.resetFilters();
-  }
-
   borrow(book: Book): void {
     if (!this.bookService.borrowBook(book.id)) {
       alert('Knihu teraz nie je možné vypožičať.');
     }
     this.resetFilters();
-  }
-
-  giveBack(book: Book): void {
-    this.bookService.returnBook(book.id);
   }
 
   readonly currentPage = signal(1);
@@ -143,5 +113,9 @@ export class BookList {
 
   toggleFavorite(book: Book): void {
     this.bookService.toggleFavorite(book.id);
+  }
+
+  giveBack(book: Book): void {
+    this.bookService.returnBook(book.id);
   }
 }

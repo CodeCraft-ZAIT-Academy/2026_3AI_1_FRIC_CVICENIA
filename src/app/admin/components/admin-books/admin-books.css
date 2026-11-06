@@ -1,0 +1,55 @@
+:host {
+    display: block;
+  }
+  
+  h1 {
+    margin-top: 0;
+    color: #1f3a5f;
+  }
+  
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  td a {
+    color: #1f3a5f;
+    text-decoration: none;
+  }
+  
+  td a:hover {
+    text-decoration: underline;
+  }
+  
+  .available {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .borrowed {
+    color: #d32f2f;
+    font-weight: bold;
+  }
+  
+  .danger {
+    background-color: #d32f2f;
+    color: white;
+  }

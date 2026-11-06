@@ -66,11 +66,16 @@
     </mat-form-field>
   
     <div class="actions">
+      <button matButton type="button" (click)="cancel()">
+        Zrušiť
+      </button>
+    
+      <button matButton="filled" type="submit" [disabled]="bookForm.invalid">
         @if (isEditMode()) {
-          <button matButton type="button" (click)="cancel()">Zrušiť</button>
+          Uložiť zmeny
+        } @else {
+          Pridať knihu
         }
-        <button matButton="filled" type="submit" [disabled]="bookForm.invalid">
-          @if (isEditMode()) { Uložiť zmeny } @else { Pridať knihu }
-        </button>
-      </div>
+      </button>
+    </div>
   </form>

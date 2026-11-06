@@ -1,0 +1,49 @@
+<h1>Detail knihy</h1>
+
+@if (book(); as currentBook) {
+  <h2>{{ currentBook.title }}</h2>
+
+  <p>
+    <strong>Autor:</strong> {{ currentBook.author }}
+  </p>
+
+  <p>
+    <strong>Stav:</strong>
+
+    @if (currentBook.available) {
+      <span class="available">Dostupná</span>
+    } @else {
+      <span class="borrowed">Vypožičaná</span>
+    }
+  </p>
+
+  <app-book-detail [book]="currentBook"></app-book-detail>
+
+  <div class="actions">
+    @if (currentBook.available) {
+      <button matButton="filled" (click)="borrow()">
+        Vypožičať knihu
+      </button>
+    } @else {
+      <button matButton="outlined" (click)="giveBack()">
+        Vrátiť knihu
+      </button>
+    }
+
+    <button matButton (click)="toggleFavorite()">
+      @if (currentBook.favorite) {
+        <mat-icon>star</mat-icon>
+        Odobrať z obľúbených
+      } @else {
+        <mat-icon>star_border</mat-icon>
+        Pridať medzi obľúbené
+      }
+    </button>
+  </div>
+
+} @else {
+  <h2>Kniha sa nenašla</h2>
+  <p>Kniha s týmto číslom v knižnici neexistuje.</p>
+}
+
+<a matButton routerLink="/books">Späť na zoznam kníh</a>

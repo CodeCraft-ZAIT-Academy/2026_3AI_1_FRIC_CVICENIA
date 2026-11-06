@@ -1,0 +1,28 @@
+
+@if (id() === undefined) {
+    <h1>Nová kniha</h1>
+  
+    <app-book-form
+      (saved)="save($event)"
+      (cancelled)="cancel()">
+    </app-book-form>
+  
+  } @else if (book(); as currentBook) {
+    <h1>Úprava knihy</h1>
+  
+    <app-book-form
+      [book]="currentBook"
+      (saved)="save($event)"
+      (cancelled)="cancel()">
+    </app-book-form>
+  
+  } @else {
+    <h1>Kniha sa nenašla</h1>
+  
+    <p>Kniha s číslom {{ id() }} neexistuje.</p>
+  
+    <button matButton="filled" routerLink="/admin">
+      Späť na administráciu
+    </button>
+  }
+  

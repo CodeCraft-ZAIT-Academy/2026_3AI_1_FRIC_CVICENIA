@@ -1,24 +1,32 @@
 :host {
-    display: block;
-    min-height: 100vh;
-    background-color: #ffffff;
-    color: #1f2937;
-    font-family: Arial, sans-serif;
-  }
-  
-  main {
-    width: min(1000px, 90%);
-    margin: 0 auto;
-    padding: 40px 0;
-  }
-  
-  h1 {
-    margin-bottom: 32px;
-    color: #000000;
-  }
+  display: block;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
 
-  .toolbar {
-    gap: 12px;
-    background-color: #1f3a5f;
-    color: white;
-  }
+main {
+  width: min(1000px, 90%);
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+h1 {
+  margin-bottom: 32px;
+  color: #000000;
+}
+
+.toolbar {
+  gap: 12px;
+  background-color: #1f3a5f;
+  color: white;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
