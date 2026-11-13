@@ -31,13 +31,10 @@
     }
 
     <button matButton (click)="toggleFavorite()">
-      @if (currentBook.favorite) {
-        <mat-icon>star</mat-icon>
-        Odobrať z obľúbených
-      } @else {
-        <mat-icon>star_border</mat-icon>
-        Pridať medzi obľúbené
-      }
+      <mat-icon>
+        {{ currentBook.favorite ? 'star' : 'star_border' }}
+      </mat-icon>
+      {{ currentBook.favorite ? 'Odobrať z obľúbených' : 'Pridať medzi obľúbené' }}
     </button>
   </div>
 
