@@ -17,6 +17,9 @@ export class BookPage {
   readonly id = input.required<string>();
 
   readonly book = computed(() => this.bookService.getBookById(Number(this.id())));
+  
+  readonly loading = this.bookService.loading;
+  readonly loadError = this.bookService.loadError;
 
   borrow(): void {
     const book = this.book();

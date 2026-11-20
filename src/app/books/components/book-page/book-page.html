@@ -1,7 +1,12 @@
 <h1>Detail knihy</h1>
 
-@if (book(); as currentBook) {
-  <h2>{{ currentBook.title }}</h2>
+@if (loading()) {
+  <p role="status">Načítavam knihu…</p>
+} @else if (loadError()) {
+  <p role="alert">{{ loadError() }}</p>
+} @else {
+  @if (book(); as book) {
+    <h2>{{ currentBook.title }}</h2>
 
   <p>
     <strong>Autor:</strong> {{ currentBook.author }}
@@ -37,10 +42,9 @@
       {{ currentBook.favorite ? 'Odobrať z obľúbených' : 'Pridať medzi obľúbené' }}
     </button>
   </div>
-
-} @else {
-  <h2>Kniha sa nenašla</h2>
-  <p>Kniha s týmto číslom v knižnici neexistuje.</p>
+  } @else {
+    <p class="empty">Kniha s číslom {{ id() }} v knižnici neexistuje.</p>
+  }
 }
 
 <a matButton routerLink="/books">Späť na zoznam kníh</a>

@@ -9,12 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { BookCard } from '../book-card/book-card';
 import { Book } from '../../book';
 import { BookService } from '../../book.service';
-import { ServerBookList } from '../server-book-list/server-book-list';
 
 @Component({
   selector: 'app-book-list',
   imports: [
-    ServerBookList,
     BookCard,
     FormsModule,
     MatButtonModule,
@@ -34,6 +32,9 @@ export class BookList {
   readonly searchText = signal('');
   readonly availability = signal('all');
   readonly sortBy = signal('none');
+
+  readonly loading = this.bookService.loading;
+  readonly loadError = this.bookService.loadError;
 
   readonly favoritesOnly = signal(false);
   readonly visibleBooks = computed(() => {

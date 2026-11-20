@@ -17,6 +17,9 @@ export class AdminBookEdit {
   private bookService = inject(BookService);
   private router = inject(Router);
 
+  readonly loading = this.bookService.loading;
+  readonly loadError = this.bookService.loadError;
+
   // Ak id neexistuje, pridávame novú knihu.
   readonly id = input<string | undefined>();
 
