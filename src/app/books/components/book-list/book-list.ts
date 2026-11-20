@@ -9,11 +9,13 @@ import { FormsModule } from '@angular/forms';
 import { BookCard } from '../book-card/book-card';
 import { Book } from '../../book';
 import { BookService } from '../../book.service';
+import { BookFilterPipe } from '../../book-filter-pipe';
 
 @Component({
   selector: 'app-book-list',
   imports: [
     BookCard,
+    BookFilterPipe,
     FormsModule,
     MatButtonModule,
     MatIconModule,
@@ -22,11 +24,13 @@ import { BookService } from '../../book.service';
     MatSelectModule,
     MatButtonToggleModule,
   ],
+  providers: [BookFilterPipe],
   templateUrl: './book-list.html',
   styleUrl: './book-list.css',
 })
 export class BookList {
   private bookService = inject(BookService);
+  private bookFilter = inject(BookFilterPipe);
   readonly books = this.bookService.books;
 
   readonly searchText = signal('');
@@ -37,14 +41,14 @@ export class BookList {
   readonly loadError = this.bookService.loadError;
 
   readonly favoritesOnly = signal(false);
-  readonly visibleBooks = computed(() => {
-    const list = this.bookService.getFilteredBooks(
+  readonly visibleBooks = computed(() =>
+    this.bookFilter.transform(
+      this.bookService.getSortedBooks(this.sortBy()),
       this.searchText(),
       this.availability(),
-      this.sortBy(),
-    );
-    return this.favoritesOnly() ? list.filter((b) => b.favorite) : list;
-  });
+      this.favoritesOnly()
+    )
+  );
   
   clearSearch(): void {
     this.searchText.set('');
@@ -66,12 +70,12 @@ export class BookList {
     this.searchText.set('');
     this.availability.set('all');
     this.sortBy.set('none');
+    this.favoritesOnly.set(false);
     this.firstPage();
   }
 
   readonly totalBooks = computed(() => this.books().length);
 
-  readonly availableCount = this.bookService.availableCount;
 
   readonly pageCount = computed(() =>
     Math.max(1, Math.ceil(this.visibleBooks().length / this.pageSize())),

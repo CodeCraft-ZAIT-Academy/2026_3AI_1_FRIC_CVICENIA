@@ -1,10 +1,10 @@
 <section>
   <h2>Zoznam kníh</h2>
 
-  <p class="counters">
-    Spolu kníh: <strong>{{ totalBooks() }}</strong>
-    <br />
-    Dostupných: <strong>{{ availableCount() }}</strong>
+  <p class="stats">
+    Všetkých kníh: {{ totalBooks() }}
+    · Dostupných: {{ (books() | bookFilter: '' : 'available').length }}
+    · Obľúbených: {{ (books() | bookFilter: '' : 'all' : true).length }}
   </p>
 
   <button matButton (click)="favoritesOnly.update((v) => !v)">
