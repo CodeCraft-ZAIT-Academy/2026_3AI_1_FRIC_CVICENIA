@@ -6,42 +6,42 @@
   <p role="alert">{{ loadError() }}</p>
 } @else {
   @if (book(); as book) {
-    <h2>{{ currentBook.title }}</h2>
+    <h2>{{ book.title }}</h2>
 
-  <p>
-    <strong>Autor:</strong> {{ currentBook.author }}
-  </p>
+    <p>
+      <strong>Autor:</strong> {{ book.author }}
+    </p>
 
-  <p>
-    <strong>Stav:</strong>
+    <p>
+      <strong>Stav:</strong>
 
-    @if (currentBook.available) {
-      <span class="available">Dostupná</span>
-    } @else {
-      <span class="borrowed">Vypožičaná</span>
-    }
-  </p>
+      @if (book.available) {
+        <span class="available">Dostupná</span>
+      } @else {
+        <span class="borrowed">Vypožičaná</span>
+      }
+    </p>
 
-  <app-book-detail [book]="currentBook"></app-book-detail>
+    <app-book-detail [book]="book"></app-book-detail>
 
-  <div class="actions">
-    @if (currentBook.available) {
-      <button matButton="filled" (click)="borrow()">
-        Vypožičať knihu
+    <div class="actions">
+      @if (book.available) {
+        <button matButton="filled" (click)="borrow()">
+          Vypožičať knihu
+        </button>
+      } @else {
+        <button matButton="outlined" (click)="giveBack()">
+          Vrátiť knihu
+        </button>
+      }
+
+      <button matButton (click)="toggleFavorite()">
+        <mat-icon>
+          {{ book.favorite ? 'star' : 'star_border' }}
+        </mat-icon>
+        {{ book.favorite ? 'Odobrať z obľúbených' : 'Pridať medzi obľúbené' }}
       </button>
-    } @else {
-      <button matButton="outlined" (click)="giveBack()">
-        Vrátiť knihu
-      </button>
-    }
-
-    <button matButton (click)="toggleFavorite()">
-      <mat-icon>
-        {{ currentBook.favorite ? 'star' : 'star_border' }}
-      </mat-icon>
-      {{ currentBook.favorite ? 'Odobrať z obľúbených' : 'Pridať medzi obľúbené' }}
-    </button>
-  </div>
+    </div>
   } @else {
     <p class="empty">Kniha s číslom {{ id() }} v knižnici neexistuje.</p>
   }
