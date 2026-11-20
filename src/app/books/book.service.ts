@@ -13,23 +13,26 @@ export class BookService {
   private readonly _books = signal<Book[]>([]);
   readonly books = this._books.asReadonly();
 
-  readonly borrowedBooks = computed(() => this.books().filter(book => !book.available));
+  readonly borrowedBooks = computed(() => this.books().filter((book) => !book.available));
 
+  private readonly favoritesKey = 'favoriteBookIds';
 
   constructor() {
     this.bookApi.getBooks().subscribe({
-      next: books => {
+      next: (books) => {
         this._books.set(this.limitBorrowed(books));
         this.loading.set(false);
+        this._books.set(this.limitBorrowed(this.applySavedFavorites(books)));
       },
-      error: error => {
+      error: (error) => {
         console.error('Načítanie kníh zo servera zlyhalo:', error);
         this.loadError.set('Knihy sa nepodarilo načítať. Skontroluj, či JSON Server beží.');
         this.loading.set(false);
-      }
+        
+      },
+      
     });
   }
-
 
   limitBorrowed(books: Book[]): Book[] {
     let borrowedCount = 0;
@@ -66,8 +69,8 @@ export class BookService {
 
   deleteBook(id: number): void {
     this._books.update((books) => books.filter((book) => book.id !== id));
+    this.saveFavoriteIds();
   }
-
 
   borrowBook(id: number): boolean {
     if (!this.canBorrowBook(id)) return false;
@@ -83,15 +86,23 @@ export class BookService {
     );
   }
 
+  private saveFavoriteIds(): void {
+    const ids = this.books()
+      .filter((book) => book.favorite)
+      .map((book) => book.id);
+    localStorage.setItem(this.favoritesKey, JSON.stringify(ids));
+  }
+
   toggleFavorite(id: number): void {
     this._books.update((books) =>
       books.map((book) => (book.id === id ? { ...book, favorite: !book.favorite } : book)),
     );
+    this.saveFavoriteIds();
   }
 
   getSortedBooks(sortBy: string): Book[] {
     const result = [...this.books()];
-  
+
     switch (sortBy) {
       case 'title':
         return result.sort((a, b) => a.title.localeCompare(b.title));
@@ -130,5 +141,22 @@ export class BookService {
 
   countAllBooks(): number {
     return this.books.length;
+  }
+
+  private loadFavoriteIds(): number[] {
+    const saved = localStorage.getItem(this.favoritesKey);
+    if (!saved) return [];
+  
+    try {
+      const ids = JSON.parse(saved);
+      return Array.isArray(ids) ? ids : [];
+    } catch {
+      return [];
+    }
+  }
+  
+  private applySavedFavorites(books: Book[]): Book[] {
+    const ids = this.loadFavoriteIds();
+    return books.map(book => ({ ...book, favorite: ids.includes(book.id) }));
   }
 }
